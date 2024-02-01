@@ -70,4 +70,4 @@ if __name__ == '__main__':
     # Turn on norm flag for same normalization for sparse and full dose.
     ax = pp.Visualization.plot_dvh(plan, dose_1d=dose_1d , struct_names=struct_names, style='solid', ax=ax, norm_flag=False)
     ax = pp.Visualization.plot_dvh(plan_full, dose_1d=dose_full, struct_names=struct_names, style='dotted', ax=ax, norm_flag=False)
-    plt.show()
+    plt.savefig(args.method + "_" + args.threshold + "_" + args.patient + ".pdf")
