@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     # Use PortPy DataExplorer class to explore PortPy data
-    data = pp.DataExplorer(data_dir='')
+    data = pp.DataExplorer(data_dir='..')
     # Pick a patient
     data.patient_id = args.patient
     # Load ct, structure set, beams for the above patient using CT, Structures, and Beams classes
