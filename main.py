@@ -53,7 +53,7 @@ if __name__ == '__main__':
     
     method = getattr(algorithms, args.method)
     B = method(A, args.threshold)
-    print("relative L2 norm (%): ", l2_norm(A - B) / l2_norm(A))
+    print("relative L2 norm (%): ", l2_norm(A - B) / l2_norm(A) * 100)
 
     inf_matrix.A = B
     plan = pp.Plan(ct=ct, structs=structs, beams=beams, inf_matrix=inf_matrix, clinical_criteria=clinical_criteria)
