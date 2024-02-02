@@ -1,5 +1,5 @@
 # RMR
-This repository contains the code of the submitted paper "Efficient Matrix Sparsification for Optimimization Applications: The Randomized Minor-value Rectification (RMR) Algorithm".
+This repository contains the code of the submitted paper "Efficient Matrix Sparsification for Optimization Applications: The Randomized Minor-value Rectification (RMR) Algorithm".
 ## Dependencies
 * `portpy`
 ## Usage
@@ -14,5 +14,10 @@ python main.py --method AKL13 --patient Lung_Patient_1 --threshold 1000000
 python main.py --method DZ11 --patient Lung_Patient_1 --threshold 10
 python main.py --method RMR --patient Lung_Patient_1 --threshold 0.02
 ```
+
+If you have MOSEK license it is recommended to run the code with MOSEK solver:
+```
+python main.py --method Naive --patient Lung_Patient_1 --threshold 0.008 --solver MOSEK
+```
 ## Demo
-You can try the project with colab demo `demo.ipynb`.
+You can try the project with `demo.ipynb` in google colab.
