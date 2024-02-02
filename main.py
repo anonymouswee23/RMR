@@ -23,6 +23,9 @@ if __name__ == '__main__':
     parser.add_argument(
         '--threshold', type=float, help='The threshold using for the input of algorithm.'
     )
+    parser.add_argument(
+        '--solver', type=str, default='SCS', help='The name of solver for solving the optimization problem'
+    )
 
     args = parser.parse_args()
     # Use PortPy DataExplorer class to explore PortPy data
@@ -59,7 +62,7 @@ if __name__ == '__main__':
     plan = pp.Plan(ct=ct, structs=structs, beams=beams, inf_matrix=inf_matrix, clinical_criteria=clinical_criteria)
     opt = pp.Optimization(plan, opt_params=opt_params)
     opt.create_cvxpy_problem()
-    x = opt.solve(solver='SCS', verbose=False)
+    x = opt.solve(solver=args.solver, verbose=False)
 
     dose_1d = B @ (x['optimal_intensity'] * plan.get_num_of_fractions())
     dose_full = A @ (x['optimal_intensity'] * plan.get_num_of_fractions())
