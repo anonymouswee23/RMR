@@ -2,7 +2,6 @@ import portpy.photon as pp
 import algorithms
 import numpy as np
 import math
-import sklearn.metrics
 import matplotlib.pyplot as plt
 
 def l2_norm(matrix):
