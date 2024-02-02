@@ -57,6 +57,7 @@ if __name__ == '__main__':
     
     method = getattr(algorithms, args.method)
     B = method(A, args.threshold)
+    print("number of non-zeros of the sparsed matrix: ", len(B.nonzero()[0]))
     print("relative L2 norm (%): ", l2_norm(A - B) / l2_norm(A) * 100)
 
     inf_matrix.A = B
