@@ -6,7 +6,7 @@ def Naive(matrix, threshold):
     copy_matrix = matrix.copy()
     copy_matrix[np.abs(matrix) <= threshold] = 0
     copy_matrix = scipy.sparse.csr_matrix(copy_matrix)
-    print("number of non-zeros: " + str(len(copy_matrix.nonzero()[0])))
+    print("number of non-zeros of the sparsed matrix: " + str(len(copy_matrix.nonzero()[0])))
     return copy_matrix
 
 def AHK06(matrix, threshold):
@@ -17,7 +17,7 @@ def AHK06(matrix, threshold):
     indices = probs < (np.abs(matrix) / threshold) * (np.abs(matrix) < threshold)
     copy_matrix[indices] = threshold * np.sign(matrix[indices])
     copy_matrix = scipy.sparse.csr_matrix(copy_matrix)
-    print("number of non-zeros: " + str(len(copy_matrix.nonzero()[0])))
+    print("number of non-zeros of the sparsed matrix: " + str(len(copy_matrix.nonzero()[0])))
     return copy_matrix
 
 def AKL13(matrix, s):
@@ -37,7 +37,7 @@ def AKL13(matrix, s):
     result = result.T
     matrix = matrix.T
     result = scipy.sparse.csr_matrix(result)
-    print("number of non-zeros: " + str(len(result.nonzero()[0])))
+    print("number of non-zeros of the sparsed matrix: " + str(len(result.nonzero()[0])))
     return result
 
 def compute_row_distribution(matrix, s, delta, row_norms):
@@ -53,7 +53,7 @@ def compute_row_distribution(matrix, s, delta, row_norms):
         sum = np.sum(rou)
     return rou
 
-def bernstein(matrix, threshold):
+def DZ11(matrix, threshold):
     copy_matrix = matrix.copy()
     n, d = matrix.shape
     norm_fro = np.linalg.norm(matrix, ord="fro")
@@ -69,14 +69,14 @@ def bernstein(matrix, threshold):
     result = np.zeros((n, d))
     np.add.at(result, (nonzero_indices[0][selected], nonzero_indices[1][selected]), data[selected] / (probs[selected] * s))
     result = scipy.sparse.csr_matrix(result)
-    print("number of non-zeros: " + str(len(result.nonzero()[0])))
+    print("number of non-zeros of the sparsed matrix: " + str(len(result.nonzero()[0])))
     return result
 
 def RMR(matrix, threshold):
     copy_matrix = matrix.copy()
     np.apply_along_axis(row_operation, 1, copy_matrix, threshold)
     copy_matrix = scipy.sparse.csr_matrix(copy_matrix)
-    print("number of non-zeros: " + str(len(copy_matrix.nonzero()[0])))
+    print("number of non-zeros of the sparsed matrix: " + str(len(copy_matrix.nonzero()[0])))
     return copy_matrix
 
 def row_operation(row, threshold):
