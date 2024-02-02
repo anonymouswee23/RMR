@@ -20,6 +20,7 @@ def AHK06(matrix, threshold):
 
 def AKL13(matrix, s):
     matrix = matrix.T
+    s = int(s)
     n, d = matrix.shape
     row_norms = np.linalg.norm(matrix, axis=1, ord=1)
     rou = compute_row_distribution(matrix, s, 0.1, row_norms)
