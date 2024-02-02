@@ -9,10 +9,10 @@ Here are some samples of how to use:
 
 ```
 python main.py --method Naive --patient Lung_Patient_1 --threshold 0.008
-python main.py --method AHK06 --patient Lung_Patient_1 --threshold 0.02
+python main.py --method AHK06 --patient Lung_Patient_1 --threshold 0.05
 python main.py --method AKL13 --patient Lung_Patient_1 --threshold 1000000
-python main.py --method DZ11 --patient Lung_Patient_1 --threshold 10
-python main.py --method RMR --patient Lung_Patient_1 --threshold 0.02
+python main.py --method DZ11 --patient Lung_Patient_1 --threshold 50
+python main.py --method RMR --patient Lung_Patient_1 --threshold 0.05
 ```
 
 If you have MOSEK license it is recommended to run the code with MOSEK solver:
@@ -20,4 +20,4 @@ If you have MOSEK license it is recommended to run the code with MOSEK solver:
 python main.py --method Naive --patient Lung_Patient_1 --threshold 0.008 --solver MOSEK
 ```
 ## Demo
-You can try the project with `demo.ipynb` in google colab.
+You can try the project with `demo.ipynb`.
