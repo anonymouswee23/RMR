@@ -53,6 +53,7 @@ if __name__ == '__main__':
     inf_matrix = pp.InfluenceMatrix(ct=ct, structs=structs, beams=beams)
 
     A = inf_matrix_full.A
+    print("number of non-zeros of the original matrix: ", len(A.nonzero()[0])
     
     method = getattr(algorithms, args.method)
     B = method(A, args.threshold)
