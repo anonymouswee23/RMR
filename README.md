@@ -19,5 +19,7 @@ If you have MOSEK license it is recommended to run the code with MOSEK solver:
 ```
 python main.py --method Naive --patient Lung_Patient_1 --threshold 0.008 --solver MOSEK
 ```
+## Experimental Results
+The experimental results that are reported in the paper can be reproduced by `script.py`.
 ## Demo
 You can try the project with [demo](https://mybinder.org/v2/gh/anonymouswee23/RMR/HEAD?labpath=demo.ipynb).
