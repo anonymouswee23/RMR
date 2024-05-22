@@ -19,6 +19,7 @@ If you have MOSEK license it is recommended to run the code with MOSEK solver:
 ```
 python main.py --method Naive --patient Lung_Patient_1 --threshold 0.008 --solver MOSEK
 ```
+This code also saves the dvh plot in your repository.
 ## Experimental Results
 The experimental results that are reported in the paper can be reproduced by `script.py`.
 ## Demo
