@@ -4,6 +4,40 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+def objective_function_value(x):
+    obj_funcs = opt_params['objective_functions'] if 'objective_functions' in opt_params else []
+    obj = 0
+    for i in range(len(obj_funcs)):
+        if obj_funcs[i]['type'] == 'quadratic-overdose':
+            if obj_funcs[i]['structure_name'] in opt.my_plan.structures.get_structures():
+                struct = obj_funcs[i]['structure_name']
+                if len(inf_matrix_full.get_opt_voxels_idx(struct)) == 0:  # check if there are any opt voxels for the structure
+                    continue
+                dose_gy = opt.get_num(obj_funcs[i]['dose_gy']) / clinical_criteria.get_num_of_fractions()
+                dO = np.maximum(A[inf_matrix_full.get_opt_voxels_idx(struct), :] @ x - dose_gy, 0)
+                obj += (1 / len(inf_matrix_full.get_opt_voxels_idx(struct))) * (obj_funcs[i]['weight'] * np.sum(dO ** 2))
+        elif obj_funcs[i]['type'] == 'quadratic-underdose':
+            if obj_funcs[i]['structure_name'] in opt.my_plan.structures.get_structures():
+                struct = obj_funcs[i]['structure_name']
+                if len(inf_matrix_full.get_opt_voxels_idx(struct)) == 0:
+                    continue
+                dose_gy = opt.get_num(obj_funcs[i]['dose_gy']) / clinical_criteria.get_num_of_fractions()
+                dU = np.minimum(A[inf_matrix_full.get_opt_voxels_idx(struct), :] @ x - dose_gy, 0)
+                obj += (1 / len(inf_matrix_full.get_opt_voxels_idx(struct))) * (obj_funcs[i]['weight'] * np.sum(dU ** 2))
+        elif obj_funcs[i]['type'] == 'quadratic':
+            if obj_funcs[i]['structure_name'] in opt.my_plan.structures.get_structures():
+                struct = obj_funcs[i]['structure_name']
+                if len(inf_matrix_full.get_opt_voxels_idx(struct)) == 0:
+                    continue
+                obj += (1 / len(inf_matrix_full.get_opt_voxels_idx(struct))) * (obj_funcs[i]['weight'] * np.sum((A[inf_matrix_full.get_opt_voxels_idx(struct), :] @ x) ** 2))
+        elif obj_funcs[i]['type'] == 'smoothness-quadratic':
+            [Qx, Qy, num_rows, num_cols] = opt.get_smoothness_matrix(inf_matrix.beamlets_dict)
+            smoothness_X_weight = 0.6
+            smoothness_Y_weight = 0.4
+            obj += obj_funcs[i]['weight'] * (smoothness_X_weight * (1 / num_cols) * np.sum((Qx @ x) ** 2) +
+                                                    smoothness_Y_weight * (1 / num_rows) * np.sum((Qy @ x) ** 2))
+    print("objective function value:", obj)
+
 def l2_norm(matrix):
     values, vectors = np.linalg.eig(np.transpose(matrix) @ matrix)
     return math.sqrt(np.max(np.abs(values)))
@@ -51,6 +85,9 @@ if __name__ == '__main__':
     # Load influence matrix
     inf_matrix = pp.InfluenceMatrix(ct=ct, structs=structs, beams=beams)
 
+    opt_full = pp.Optimization(plan_full, opt_params=opt_params)
+    opt_full.create_cvxpy_problem()
+
     A = inf_matrix_full.A
     print("number of non-zeros of the original matrix: ", len(A.nonzero()[0]))
     
@@ -64,6 +101,13 @@ if __name__ == '__main__':
     opt = pp.Optimization(plan, opt_params=opt_params)
     opt.create_cvxpy_problem()
     x = opt.solve(solver=args.solver, verbose=False)
+
+    opt_full.vars['x'].value = x['optimal_intensity']
+    violation = 0
+    for constraint in opt_full.constraints[2:]:
+        violation += np.sum(constraint.violation())
+    print("feasibility violation:", violation)
+    objective_function_value(x['optimal_intensity'])
 
     dose_1d = B @ (x['optimal_intensity'] * plan.get_num_of_fractions())
     dose_full = A @ (x['optimal_intensity'] * plan.get_num_of_fractions())
