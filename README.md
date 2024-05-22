@@ -1,5 +1,5 @@
 # RMR
-This repository contains the code of the submitted paper "Efficient Matrix Sparsification for Optimization Applications: The Randomized Minor-value Rectification (RMR) Algorithm".
+This repository contains the code of the submitted paper "Randomized Minor-value Rectification: A Novel Matrix Sparsification Technique for Solving Constrained Optimizations in Cancer Radiation Therapy".
 ## Dependencies
 * `portpy`
 ## Usage
