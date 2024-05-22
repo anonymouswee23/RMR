@@ -70,6 +70,7 @@ if __name__ == '__main__':
     print("relative dose discrepancy (%): ", (np.linalg.norm(dose_full - dose_1d) / np.linalg.norm(dose_full)) * 100)
 
     struct_names = ['PTV', 'ESOPHAGUS', 'HEART', 'CORD']
+    
     fig, ax = plt.subplots(figsize=(12, 8))
     # Turn on norm flag for same normalization for sparse and full dose.
     ax = pp.Visualization.plot_dvh(plan, dose_1d=dose_1d , struct_names=struct_names, style='solid', ax=ax, norm_flag=True)
